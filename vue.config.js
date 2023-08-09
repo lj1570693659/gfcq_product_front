@@ -35,6 +35,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         // target: `http://localhost:${port}/mock`,
+        // target: `http://10.24.12.84:8101/`,
         target: `http://localhost:8101/`,
         ws: true,
         changeOrigin: true,
@@ -52,6 +53,15 @@ module.exports = {
     resolve: {
       alias: {
         '@': resolve('src')
+      }
+    },
+    performance: {
+      hints: 'warning',
+      maxEntrypointSize: 40000000,
+      // 生成文件的最大体积
+      maxAssetSize: 20000000,
+      assetFilter: function(assetFilename) {
+        return assetFilename.endsWith('.js')
       }
     }
   },
