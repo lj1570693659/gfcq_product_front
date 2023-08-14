@@ -140,11 +140,6 @@
             placeholder="请输入备注信息"
           />
         </el-form-item>
-        <!-- <el-form-item label="PM绩效等级：" prop="pmKpiLevelId">
-          <el-select v-model="temp.pmKpiLevelId" :remote-method="getKpi" filterable default-first-option remote placeholder="请选择项目经理绩效等级">
-            <el-option v-for="(item,index) in kpiOptions" :key="item+index" :label="item.name" :value="item.id" />
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="备注：" prop="remark">
           <el-input
             v-model="temp.remark"

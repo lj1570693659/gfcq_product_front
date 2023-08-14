@@ -262,7 +262,7 @@ export default {
       }
     }
     const validatePmFloatRadioRequire = (rule, value, callback) => {
-      if (value === '' || value === 0 || value === undefined) {
+      if (value === '' || value === undefined) {
         this.$message({
           message: 'PM浮动比例为必选项',
           type: 'error'

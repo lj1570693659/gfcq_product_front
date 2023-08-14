@@ -153,11 +153,11 @@ import { getLevelAll } from '@/api/system/organize/level'
 // import { validAuth } from '@/utils/validate'
 
 const defaultArith = [
-  { id: 'gt', name: '等于' },
+  { id: 'eq', name: '等于' },
   { id: 'lt', name: '小于' },
   { id: 'egt', name: '大于等于' },
   { id: 'elt', name: '小于等于' },
-  { id: 'eq', name: '等于' },
+  { id: 'gt', name: '大于' },
   { id: 'neq', name: '不等于' }
 ]
 

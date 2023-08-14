@@ -67,9 +67,14 @@
           <el-option v-for="(item,index) in statusOptions" :key="item+index" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
+      <!-- <el-form-item label="项目类型" prop="tid">
+        <el-select v-model="form.tid" :remote-method="getType" filterable default-first-option remote placeholder="请选择项目类型" @change="handleChangeType">
+          <el-option v-for="(item,index) in typeOptions" :key="item+index" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item> -->
       <el-form-item label="当前阶段" prop="proTypeStageId">
         <el-select v-model="form.proTypeStageId" :remote-method="getStage" filterable default-first-option remote placeholder="请选择当前阶段">
-          <el-option v-for="(item,index) in stageOptions" :key="item+index" :label="item.name" :value="item.id" />
+          <el-option v-for="(k,v) in stageOptions" :key="k+v" :label="k.name" :value="k.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
@@ -229,6 +234,7 @@ export default {
       }
     }
     const validateStage = (rule, value, callback) => {
+      console.log('value---------', value)
       if (value === '' || value === 0 || value === undefined) {
         this.$message({
           message: '当前阶段为必传项',
@@ -304,6 +310,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      console.log('this.form---------', this.form)
       this.$refs.form.validate(valid => {
         if (valid) {
           this.loading = true
@@ -418,11 +425,11 @@ export default {
     },
     getStage(query) {
       getStageAll(query).then(response => {
-        if (!response.Data) return
+        console.log('response------------', response)
         this.stageOptions = []
         this.stageOptions.push({ id: 0, name: '请选择' })
-        response.Data.forEach((k, v) => {
-          this.stageOptions.push({ id: k.Id, name: k.Name })
+        response.forEach((k, v) => {
+          this.stageOptions.push({ id: k.productModeStage.id, name: k.productModeStage.name })
         })
       })
     },

@@ -296,6 +296,9 @@ export default {
             this.departmentListOptions.push({ id: k.id, name: k.name })
             k.childDepart.forEach((kc, vc) => {
               this.departmentListOptions.push({ id: kc.id, name: k.name + ' - ' + kc.name })
+              kc.childDepart.forEach((skc, svc) => {
+                this.departmentListOptions.push({ id: skc.id, name: k.name + ' - ' + kc.name + ' - ' + skc.name })
+              })
             })
           }
         })

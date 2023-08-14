@@ -118,7 +118,6 @@ export default {
       })
     },
     handleEdit(row) {
-      console.log('row---------------', row)
       this.$router.push({
         path: '/system/organize/employee/create',
         query: {

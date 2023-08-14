@@ -2,9 +2,8 @@
   <div class="app-container">
     <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" style="margin: 10px 0" @click="handleCreate">添加</el-button>
     <el-table v-loading="listLoading" :data="tableData" style="width: 100%; margin-bottom: 20px  margin-bottom: 20px" row-key="value" stripe size="medium" :tree-props="{ children: 'children' }">
-      <el-table-column prop="label" label="角色名称" />
-      <el-table-column prop="explain" label="角色与职责说明" />
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="label" label="部门" />
+      <el-table-column prop="location" label="员工数量" />
       <el-table-column label="操作" :align="alignDir" width="180">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -25,34 +24,40 @@
         label-width="120px"
         style="margin-left: 50px"
       >
-        <el-form-item v-if="dialogStatus !== 'update'" label="层级：" prop="pid">
-          <el-select v-model="temp.pid" placeholder="请选择层级" size="small" @change="locationChange">
-            <el-option key="0" label="顶层标准" value="0" />
-            <el-option v-for="item in locationData" :key="item.id" :label="item.name" :value="item.id" />
+        <el-form-item v-if="dialogStatus !== 'update'" label="层级：" prop="location">
+          <el-select v-model="temp.location" placeholder="请选择层级" size="small" @change="locationChange">
+            <el-option
+              v-for="item in locationData"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="角色名称：" prop="label">
+        <el-form-item
+          v-if="sonStatus && dialogStatus !== 'update'"
+          label="子位置："
+          prop="children"
+        >
+          <el-cascader
+            :key="isResouceShow"
+            v-model="temp.children"
+            size="small"
+            placeholder="请选择子位置"
+            :label="'label'"
+            :value="'value'"
+            :options="tableData"
+            :props="{ checkStrictly: true }"
+            clearable
+            @change="getCasVal"
+          />
+        </el-form-item>
+        <el-form-item label="标签名称：" prop="label">
           <el-input
             v-model="temp.label"
             size="small"
             autocomplete="off"
-            placeholder="请输入角色名称"
-          />
-        </el-form-item>
-        <el-form-item label="角色与职责说明" prop="explain">
-          <el-input
-            v-model="temp.explain"
-            size="small"
-            autocomplete="off"
-            placeholder="请输入角色与职责说明"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input
-            v-model="temp.remark"
-            size="small"
-            autocomplete="off"
-            placeholder="请输入备注"
+            placeholder="请输入标签名称"
           />
         </el-form-item>
       </el-form>
@@ -66,7 +71,7 @@
 
 <script>
 import Vue from 'vue'
-import { getLists, createData, modifyData, deleteData } from '@/api/config/product/roles'
+import { getDepartmentLists, createData, modifyData, deleteData } from '@/api/system/organize/department'
 
 export default {
   name: 'Tag',
@@ -118,17 +123,30 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getLists().then(response => {
+      getDepartmentLists().then(response => {
         this.listLoading = false
         response.forEach((k, v) => {
-          var item = { tagId: k.id, label: k.name, parent: k.pid, explain: k.explain, remark: k.remark, value: k.id, children: [] }
+          var item = { tagId: k.id, label: k.name, parent: k.pid, location: k.employeeCount, value: k.id, children: [] }
           var children = []
           var childKey = []
-          if (k.childLevel.length > 0) {
-            k.childLevel.forEach((kc, vc) => {
+          if (k.childDepart.length > 0) {
+            k.childDepart.forEach((kc, vc) => {
               childKey[k.id] = 0
               childKey[kc.id] = vc + 1
-              var itemc = { tagId: kc.id, label: kc.name, parent: kc.pid, remark: kc.remark, explain: kc.explain, value: String(k.id) + '-' + String(kc.id), children: [], childKey: childKey }
+              var secondItem = { tagId: kc.id, label: kc.name, parent: kc.pid, location: kc.employeeCount, value: kc.id, children: [] }
+              var secondChildren = []
+              var secondChildKey = []
+              if (kc.childDepart.length > 0) {
+                kc.childDepart.forEach((skc, svc) => {
+                  secondChildKey[kc.id] = 0
+                  secondChildKey[skc.id] = svc + 1
+                  var secondItemc = { tagId: skc.id, label: skc.name, parent: skc.pid, location: skc.employeeCount, value: String(k.id) + '-' + String(skc.id), children: [], childKey: secondChildKey }
+                  secondChildren[skc.id] = secondItemc
+                })
+                secondItem.children = secondChildren
+              }
+
+              var itemc = { tagId: kc.id, label: kc.name, parent: kc.pid, location: kc.employeeCount, value: String(k.id) + '-' + String(kc.id), children: secondItem.children, childKey: childKey }
               children[kc.id] = itemc
             })
             item.children = children
@@ -136,6 +154,7 @@ export default {
           Vue.set(this.tableData, k.id, item)
           Vue.set(this.locationData, v, { id: k.id, name: k.name })
         },
+        console.log('this.tableData---------------', this.tableData)
         )
       })
     },
@@ -252,7 +271,6 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log('this.sonStatus--------------', this.sonStatus)
           if (this.sonStatus === false) {
             this.temp.value = String(this.tableData.length)
             const obj = Object.assign({}, this.temp)
@@ -265,27 +283,35 @@ export default {
             })
             this.dialogFormVisible = false
           } else {
+            const arr = this.find(this.tableData, 0)
+            this.temp.value =
+                            String(this.casArr[this.casArr.length - 1]) +
+                            '-' +
+                            String(arr.length)
+            delete this.temp.children
+
+            const obj = Object.assign({}, this.temp)
+            obj.children = []
+            obj.childKey = [...this.casArr, String(arr.length)]
+            obj.parent = this.findTable(
+              this.tableData,
+              0,
+              this.casArr
+            ).label
+            if (this.temp.location === '2') {
+              obj.location = String(
+                [...this.casArr, String(arr.length)].length
+              )
+            }
+            arr.push(obj)
             this.$message({
               type: 'success',
               message: '添加成功'
             })
             this.dialogFormVisible = false
           }
-          console.log('this.temp.location--------------', this.temp)
-          var data = {
-            id: 0,
-            pid: this.temp.pid,
-            name: this.temp.label,
-            explain: this.temp.explain,
-            remark: this.temp.remark
-          }
-          // if (this.temp.pid === '0') {
-          //   data.name = this.temp.label
-          // } else {
-          //   data.name = this.tableData[this.temp.pid].label
-          // }
-          createData(data).then(response => {
-            location.reload()
+          createData({ id: 0, name: this.temp.label, pid: this.temp.location }).then(response => {
+            this.fetchData()
           })
         } else {
           return false
@@ -294,6 +320,8 @@ export default {
     },
     // 打开更新
     handleUpdate(row) {
+      console.log('row---------------')
+      console.log(row)
       row.value.length !== 1
         ? (this.sonStatus = true)
         : (this.sonStatus = false)
@@ -305,6 +333,7 @@ export default {
         this.idx = row.value
       }
       console.log(this.idx)
+
       this.parentId = row.parent
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
@@ -332,19 +361,9 @@ export default {
             })
             this.dialogFormVisible = false
           }
-          var data = {
-            pid: this.temp.parent,
-            name: this.temp.label,
-            explain: this.temp.explain,
-            remark: this.temp.remark,
-            id: this.temp.tagId
-          }
-          if (this.temp.parent === 0) {
-            data.name = this.temp.label
-          }
 
-          modifyData(data).then(response => {
-            location.reload()
+          modifyData({ id: this.temp.tagId, name: this.temp.label, pid: this.parentId }).then(response => {
+            this.fetchData()
           })
         } else {
           return false
@@ -380,7 +399,7 @@ export default {
                 message: '删除成功'
               })
             })
-            location.reload()
+            this.fetchData()
           }
         })
         .catch((err) => {
@@ -406,4 +425,3 @@ export default {
   }
 }
 </script>
-
