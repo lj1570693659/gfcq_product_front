@@ -23,11 +23,6 @@
           <el-option v-for="(item,index) in jobLevelListOptions" :key="item+index" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="部门" prop="departId">
-        <el-select v-model="temp.departIds" :remote-method="getDepartment" multiple filterable default-first-option remote placeholder="请选择职级信息" style="width: 100%;">
-          <el-option v-for="(item,index) in departmentListOptions" :key="item+index" :label="item.name" :value="item.id" />
-        </el-select>
-      </el-form-item>
       <el-form-item label="岗位" prop="jobId">
         <el-select v-model="temp.jobIds" :remote-method="getJob" multiple filterable default-first-option remote placeholder="请选择岗位信息" style="width: 100%;">
           <el-option v-for="(item,index) in jobListOptions" :key="item+index" :label="item.name" :value="item.id" />
@@ -39,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="在职状态" prop="status">
-        <el-select v-model="form.sex" :remote-method="getStatus" filterable default-first-option remote placeholder="请选择在职状态" style="width: 100%;">
+        <el-select v-model="form.status" :remote-method="getStatus" filterable default-first-option remote placeholder="请选择在职状态" style="width: 100%;">
           <el-option v-for="(item,index) in statusOptions" :key="item+index" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>

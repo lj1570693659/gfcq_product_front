@@ -13,7 +13,6 @@
       :data="list"
       element-loading-text="Loading"
       border
-      fit
       highlight-current-row
     >
       <el-table-column align="center" label="序号" width="95">
@@ -365,7 +364,7 @@ export default {
       exportMemberList({ proId: row.productStageKpi.proId }).then(response => {
         // console.log('response----------------', response)
         // var path = 'http://10.24.12.84:8199' + response
-        var path = 'http://localhost:8199' + response
+        var path = 'http://10.80.28.218:8199' + response
         window.open(path, '_blank')
         this.fetchData()
       })
@@ -375,7 +374,7 @@ export default {
         path: '/achieve/import',
         query: {
           proId: row.productInfo.id,
-          stageId: row.productInfo.proTypeStageId
+          stageId: row.productStageKpi.stageId
         }
       })
     },

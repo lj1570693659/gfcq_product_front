@@ -71,3 +71,11 @@ export function getProductPrizeLists(params) {
     params
   })
 }
+
+export function exportProductMemberPrize(data) {
+  return request({
+    url: '/achieve/product/prize/export',
+    method: 'post',
+    data
+  })
+}

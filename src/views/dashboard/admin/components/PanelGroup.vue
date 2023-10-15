@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             预算(万)
           </div>
-          <count-to :start-val="0" :end-val="inspire.incentiveBudget" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="1" :end-val="inspire.incentiveBudget" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             应发(万)
           </div>
-          <count-to :start-val="0" :end-val="inspire.stageBudget" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="2" :end-val="inspire.stageBudget" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,12 +48,12 @@
           <div class="card-panel-text">
             实发(万)
           </div>
-          <count-to :start-val="0" :end-val="inspire.stageQuota" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="3" :end-val="inspire.stageQuota" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
 
-    <el-col v-for="stag in stage" :key="stag" :xs="5" :sm="5" :lg="4" class="card-panel-col" :label="stag">
+    <el-col v-for="(stag,index) in stage" :key="index" :xs="5" :sm="5" :lg="4" class="card-panel-col" :label="stag">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')">
         <!-- <div class="card-panel-icon-wrapper icon-message">
           <svg-icon icon-class="clipboard" class-name="card-panel-icon" />

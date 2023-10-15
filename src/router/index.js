@@ -63,8 +63,14 @@ export const constantRoutes = [
       {
         path: 'index',
         name: 'Product',
-        component: () => import('@/views/product/'),
-        meta: { title: '项目清单', icon: 'list' }
+        component: () => import('@/views/product/index'),
+        meta: { title: '项目清单', noCache: true, icon: 'list' }
+      },
+      {
+        path: 'member',
+        name: 'Product',
+        component: () => import('@/views/product/member'),
+        meta: { title: '项目成员', noCache: true, icon: 'people' }
       },
       {
         path: 'import',
@@ -126,7 +132,7 @@ export const constantRoutes = [
         component: () => import('@/views/achieve/detail'),
         name: 'detail',
         hidden: true,
-        meta: { title: '绩效详情d', icon: 'edit' }
+        meta: { title: '绩效详情', icon: 'edit' }
       },
       {
         path: 'prize',
@@ -293,10 +299,16 @@ export const constantRoutes = [
             meta: { title: '职级管理', noCache: true, icon: 'tree' }
           },
           {
+            path: 'job',
+            name: 'job',
+            component: () => import('@/views/system/organize/job'),
+            meta: { title: '岗位管理', noCache: true, icon: 'tree' }
+          },
+          {
             path: 'employee',
             name: 'employee',
             component: () => import('@/views/system/organize/employee'),
-            meta: { title: '员工信息', noCache: true, icon: 'people' }
+            meta: { title: '员工信息', noCache: true, icon: 'user' }
           },
           {
             path: 'employee/create',

@@ -24,8 +24,8 @@ export default {
   },
   data() {
     return {
-      title: '重庆赣锋',
-      logo: 'https://www.ganfenglithium.com/Html/images/logo.png'
+      title: '',
+      logo: ''
     }
   }
 }
@@ -43,10 +43,11 @@ export default {
 
 .sidebar-logo-container {
   position: relative;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  background: #ffffff;
+  width: 85%;
+  background-image: url("../../../assets/images/logoindex2.jpg");
+  margin-top: 17px;
+  margin-left: 10px;
+  height: 33px;
   text-align: center;
   overflow: hidden;
 

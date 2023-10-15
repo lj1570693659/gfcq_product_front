@@ -41,9 +41,18 @@ export default {
       return false
     },
     handleSuccess({ results, header, rawFile }) {
-      this.tableData = results
+      // this.tableData = results
       this.tableHeader = header
       this.rawFile = rawFile
+      const items = results
+      this.tableData = items.map(v => {
+        if (v.投入占比 === undefined || v.投入占比 === null) {
+          v.投入占比 = 0.0
+        }
+        v.投入占比 = v.投入占比.toFixed(2)
+        return v
+      })
+      console.log('this.tabledata-------------------', this.tableData)
     },
     onSubmit() {
       var subData = {

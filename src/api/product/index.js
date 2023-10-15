@@ -71,3 +71,19 @@ export function getMemberLists(params) {
     params
   })
 }
+
+export function modifyMemberData(data) {
+  return request({
+    url: '/product/member/modify',
+    method: 'put',
+    data
+  })
+}
+
+export function deleteProductMember(data) {
+  return request({
+    url: '/product/member/delete',
+    method: 'delete',
+    data
+  })
+}

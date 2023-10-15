@@ -15,7 +15,7 @@
       @select-all="selectAllFun"
     >
       <el-table-column prop="name" label="部门名称" sortable />
-      <el-table-column prop="employeeCount" label="员工数量" sortable />
+      <!-- <el-table-column prop="employeeCount" label="员工数量" sortable /> -->
       <el-table-column label="操作" :align="alignDir" width="180">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -106,6 +106,7 @@ export default {
   created() {
     getDepartmentLists().then(response => {
       this.renderDynamic = response
+      this.locationData.push({ id: 0 + '-' + '0', name: '顶层目录' })
       this.initData(this.renderDynamic, 1)
     })
   },

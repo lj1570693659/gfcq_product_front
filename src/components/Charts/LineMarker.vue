@@ -10,7 +10,14 @@ import { getProductMemberLevel } from '@/api/statistics/index'
 const lineColor = [
   '137, 189, 27',
   '0, 136, 212',
-  '219, 50, 51'
+  '219, 50, 51',
+  '115, 50, 51',
+  '56, 189, 51',
+  '219, 0, 27',
+  '219, 0, 27',
+  '219, 0, 27',
+  '219, 0, 27',
+  '219, 0, 27'
 ]
 
 export default {
@@ -159,6 +166,8 @@ export default {
           containLabel: true
         },
         xAxis: [{
+          nameLocation: 'end',
+          name: '绩效等级',
           type: 'category',
           boundaryGap: false,
           axisLine: {
@@ -166,10 +175,15 @@ export default {
               color: '#57617B'
             }
           },
+          axisLabel: {
+            fontSize: 24,
+            margin: 10
+          },
           data: this.title
         }],
         yAxis: [{
           type: 'value',
+          nameLocation: 'end',
           name: '(人数)',
           axisTick: {
             show: false
@@ -182,7 +196,7 @@ export default {
           axisLabel: {
             margin: 10,
             textStyle: {
-              fontSize: 14
+              fontSize: 24
             }
           },
           splitLine: {

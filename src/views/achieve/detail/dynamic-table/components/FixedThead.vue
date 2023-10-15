@@ -208,11 +208,12 @@ export default {
   },
   created() {
     this.stageId = this.$route.query.stageId
+    this.proId = this.$route.query.proId
     this.fetchData()
   },
   methods: {
     fetchData() {
-      getProductMemberKpiLists({ proStageId: this.stageId, page: this.listQuery.page, size: this.listQuery.size }).then(response => {
+      getProductMemberKpiLists({ proStageId: this.stageId, page: this.listQuery.page, size: this.listQuery.size, proId: this.proId }).then(response => {
         this.total = response.totalSize
         this.tableData = []
         response.data.forEach((k, v) => {

@@ -79,7 +79,7 @@
     <el-dialog
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
-      width="30%"
+      width="50%"
     >
       <el-form
         ref="dataForm"
@@ -192,7 +192,15 @@ export default {
     fetchData() {
       this.listLoading = true
       getAll(this.listQuery).then(response => {
-        this.list = response.Data
+        const items = response.Data
+        console.log('Factor0000000000000000000000-----------', items)
+        this.list = items.map(v => {
+          this.$set(v, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+          v.originalFactor = v.Factor //  will be used when user click the cancel botton
+          v.originalName = v.Name //  will be used when user click the cancel botton
+          v.originalRemark = v.Remark //  will be used when user click the cancel botton
+          return v
+        })
         this.listLoading = false
       })
     },
@@ -222,7 +230,9 @@ export default {
       })
     },
     cancelEdit(row) {
-      row.title = row.originalTitle
+      row.Factor = row.originalFactor
+      row.Name = row.originalName
+      row.Remark = row.originalRemark
       row.edit = false
       this.$message({
         message: '开发系数未做变更',

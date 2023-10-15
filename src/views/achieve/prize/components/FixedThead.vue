@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleExport">
+        {{ $t('table.export') }}
+      </el-button>
       <el-checkbox-group v-model="checkboxVal">
         <el-checkbox label="序号">序号</el-checkbox>
         <el-checkbox label="项目角色">项目角色</el-checkbox>
@@ -37,12 +40,13 @@
         </template>
       </el-table-column>
     </el-table>
+
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :size.sync="listQuery.size" @pagination="fetchData" />
   </div>
 </template>
 
 <script>
-import { getProductPrizeLists } from '@/api/achieve/product/prize'
+import { getProductPrizeLists, exportProductMemberPrize } from '@/api/achieve/product/prize'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 const defaultFormThead = ['序号', '项目角色', '工号', '姓名', '分类', '部门', '投入占比', '责任系数', '职级', '职责和任务', '工作地', '主导方', '支持方', '工时占比',
   '绩效等级', '浮动贡献', '工时指数', '责任指数', '管理指数', '权重基准', '发放基数', '绩效比例', '实发额度']
@@ -115,6 +119,15 @@ export default {
         })
       }).catch(err => {
         console.log(err)
+      })
+    },
+    handleExport(row) {
+      exportProductMemberPrize({ proStageId: this.stageId }).then(response => {
+        // console.log('response----------------', response)
+        // var path = 'http://10.24.12.84:8199' + response
+        var path = 'http://10.80.28.218:8199' + response
+        window.open(path, '_blank')
+        this.fetchData()
       })
     }
   }

@@ -1,6 +1,14 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" style="margin: 10px 0" @click="handleCreate">添加</el-button>
+    <el-input v-model="listQuery.workNumber" :placeholder="$t('table.workNumber')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+    <el-input v-model="listQuery.phone" :placeholder="$t('table.phone')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+    <el-input v-model="listQuery.userName" :placeholder="$t('table.userName')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+    <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      {{ $t('table.search') }}
+    </el-button>
+    <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+      {{ $t('table.add') }}
+    </el-button>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -22,6 +30,11 @@
       <el-table-column label="姓名" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.employeeInfo.userName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="手机号码" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.employeeInfo.phone }}</span>
         </template>
       </el-table-column>
       <el-table-column label="性别" align="center">
@@ -107,6 +120,10 @@ export default {
         this.total = response.TotalSize
         this.listLoading = false
       })
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.fetchData()
     },
     handleCreate(row) {
       this.$router.push({

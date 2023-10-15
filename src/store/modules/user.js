@@ -52,8 +52,14 @@ const actions = {
         // const { name, avatar } = response
         // name = response.workNumber
 
-        commit('SET_NAME', response.userName)
-        commit('SET_AVATAR', response.workNumber)
+        commit('SET_NAME', response.user.userName)
+        console.log('response---response----------', response)
+        if (response.employee !== undefined || response.employee !== null) {
+          commit('SET_AVATAR', response.employee.userName)
+        } else {
+          commit('SET_AVATAR', response.user.workNumber)
+        }
+
         resolve(response)
       }).catch(error => {
         reject(error)

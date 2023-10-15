@@ -16,12 +16,12 @@
       </el-table-column>
       <el-table-column label="判断规则" align="center">
         <template slot-scope="{row}">
-          <template v-if="row.edit">
+          <!-- <template v-if="row.edit">
             <el-select v-model="row.crewDutyInfo.arith" placeholder="请选择判断规则" size="small">
               <el-option v-for="item in arith" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
-          </template>
-          <span v-else>
+          </template> -->
+          <span>
             <span v-if="row.crewDutyInfo.arith == 'gt'">大于</span>
             <span v-if="row.crewDutyInfo.arith == 'lt'">小于</span>
             <span v-if="row.crewDutyInfo.arith == 'egt'">大于等于</span>
@@ -111,11 +111,11 @@
         label-width="120px"
         style="margin-left: 50px"
       >
-        <el-form-item label="判断规则：" prop="arith">
+        <!-- <el-form-item label="判断规则：" prop="arith">
           <el-select v-model="temp.arith" placeholder="请选择判断规则" size="small">
             <el-option v-for="item in arith" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="职级：" prop="jobLevelId">
           <el-select v-model="temp.jobLevelId" placeholder="请选择职级" size="small">
             <el-option v-for="item in levelOptions" :key="item.id" :label="item.name" :value="item.id" />
@@ -188,21 +188,21 @@ export default {
       }
       callback()
     }
-    const validateArithRequire = (rule, value, callback) => {
-      if (value === '' || value === 0 || value === undefined) {
-        this.$message({
-          message: '判断规则为必传项',
-          type: 'error'
-        })
-        callback(new Error('请选择判断规则'))
-      } else {
-        const aa = this.arith.find(c => c.id === value)
-        if (aa === undefined) {
-          callback(new Error('请选择判断规则'))
-        }
-      }
-      callback()
-    }
+    // const validateArithRequire = (rule, value, callback) => {
+    //   if (value === '' || value === 0 || value === undefined) {
+    //     this.$message({
+    //       message: '判断规则为必传项',
+    //       type: 'error'
+    //     })
+    //     callback(new Error('请选择判断规则'))
+    //   } else {
+    //     const aa = this.arith.find(c => c.id === value)
+    //     if (aa === undefined) {
+    //       callback(new Error('请选择判断规则'))
+    //     }
+    //   }
+    //   callback()
+    // }
     const validateJobLevelRequire = (rule, value, callback) => {
       if (value === '' || value === 0 || value === undefined) {
         this.$message({
@@ -228,7 +228,7 @@ export default {
       arith: defaultArith,
       dialogFormVisible: false,
       rules: {
-        arith: [{ validator: validateArithRequire }],
+        // arith: [{ validator: validateArithRequire }],
         scoreIndex: [{ validator: validateIndexRequire }],
         jobLevelId: [{ validator: validateJobLevelRequire }]
       },
@@ -285,6 +285,7 @@ export default {
     createData() {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
+          this.temp.arith = 'eq'
           createDutyData(this.temp).then(response => {
             location.reload()
           })
@@ -309,7 +310,6 @@ export default {
       row.scoreIndex = row.crewDutyInfo.scoreIndex
       row.jobLevelId = row.crewDutyInfo.jobLevelId
       row.remark = row.crewDutyInfo.remark
-      console.log('modify--------', row)
       // jobLevelName
       if (row.jobLevelId !== row.originaljobLevelId) {
         const aa = this.levelOptions.find(c => c.Id === row.jobLevelId)

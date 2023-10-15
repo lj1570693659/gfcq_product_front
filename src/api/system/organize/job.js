@@ -8,11 +8,43 @@ export function getLevelLists(params) {
   })
 }
 
+export function getJobLists(params) {
+  return request({
+    url: '/system/organize/job/lists',
+    method: 'get',
+    params
+  })
+}
+
 export function getJobAll(params) {
   return request({
     url: '/system/organize/job/all',
     method: 'get',
     params
+  })
+}
+
+export function createJobData(data) {
+  return request({
+    url: '/system/organize/job/create',
+    method: 'post',
+    data
+  })
+}
+
+export function modifyJobData(data) {
+  return request({
+    url: '/system/organize/job/modify',
+    method: 'put',
+    data
+  })
+}
+
+export function deleteJobData(data) {
+  return request({
+    url: '/system/organize/job/delete',
+    method: 'delete',
+    data
   })
 }
 

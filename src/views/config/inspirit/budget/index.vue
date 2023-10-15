@@ -76,7 +76,7 @@
           />
         </el-form-item>
         <el-form-item label="评分关系" prop="scoreRange">
-          <el-select v-model="temp.scoreRange" filterable default-first-option remote placeholder="请选择评分关系">
+          <el-select v-model="temp.scoreRange" filterable default-first-option remote placeholder="请选择评分关系" style="width: 100%;">
             <el-option v-for="(item,index) in scoreRangeOptions" :key="item+index" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
@@ -85,7 +85,7 @@
             v-model="temp.budgetMin"
             size="small"
             autocomplete="off"
-            placeholder="请输入预算下限"
+            placeholder="请输入预算下限(单位：元)"
           />
         </el-form-item>
         <el-form-item label="预算上限" prop="budgetMax">
@@ -93,11 +93,11 @@
             v-model="temp.budgetMax"
             size="small"
             autocomplete="off"
-            placeholder="请输入预算上限"
+            placeholder="请输入预算上限(单位：元)"
           />
         </el-form-item>
         <el-form-item label="预算关系" prop="budgetRange">
-          <el-select v-model="temp.budgetRange" filterable default-first-option remote placeholder="请选择预算关系">
+          <el-select v-model="temp.budgetRange" filterable default-first-option remote placeholder="请选择预算关系" style="width: 100%;">
             <el-option v-for="(item,index) in scoreRangeOptions" :key="item+index" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>

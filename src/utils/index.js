@@ -114,7 +114,7 @@ export function param2Obj(url) {
  * @returns {Object}
  */
 export function getDate(numb) {
-  if (numb === undefined) {
+  if (numb === undefined || numb === '') {
     return ''
   }
   const yeraData = new Date(1900, 0, numb - 1)

@@ -31,16 +31,16 @@
 
           <el-col :span="10">
             <el-form-item label-width="120px" label="修正金额:" prop="fixBudget" class="postInfo-container-item">
-              <el-input v-model="form.fixBudget" />
+              <el-input v-model="form.fixBudget" placeholder="请输入修正金额（单位：元）" />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item label="投资额度" prop="invest">
-        <el-input v-model="form.invest" />
+        <el-input v-model="form.invest" placeholder="请输入投资额度（单位：元）" />
       </el-form-item>
       <el-form-item label="首年净利润" prop="netProfit">
-        <el-input v-model="form.netProfit" />
+        <el-input v-model="form.netProfit" placeholder="请输入首年净利润（单位：元）" />
       </el-form-item>
       <el-form-item label="研发模式" prop="modeId">
         <el-select v-model="form.modeId" :remote-method="getMode" filterable default-first-option remote placeholder="请选择岗位信息">

@@ -1,12 +1,11 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />
     </el-row>
     <el-row :gutter="32">
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 9}" :xl="{span: 12}" style="margin-bottom:30px;">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 9}" :xl="{span: 9}" style="margin-bottom:30px;">
         <box-card />
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 15}" :xl="{span: 15}" style="padding-right:8px;margin-bottom:30px;">
@@ -18,7 +17,6 @@
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import TransactionTable from './components/TransactionTable'
@@ -36,7 +34,6 @@ const lineChartData = {
 export default {
   name: 'DashboardAdmin',
   components: {
-    GithubCorner,
     PanelGroup,
     LineChart,
     BoxCard,

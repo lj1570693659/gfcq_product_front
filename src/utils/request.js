@@ -67,6 +67,12 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(res.message || 'error')
+    } else if (res.code === 201) {
+      Message({
+        message: res.message || 'error',
+        type: 'warning',
+        duration: 5 * 1000
+      })
     } else {
       // console.log(res.data)
       return res.data
