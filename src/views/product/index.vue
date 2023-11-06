@@ -83,6 +83,7 @@
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleImport(scope.row)">导入成员</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleAchieve(scope.row)">录入绩效</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowAchieve(scope.row)">绩效</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowCheckin(scope.row)">打卡</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleDelete(scope.row)">删除</el-button>
           </span>
         </template>
@@ -400,6 +401,14 @@ export default {
         path: '/achieve/index',
         query: {
           proId: row.id
+        }
+      })
+    },
+    handleShowCheckin(row) {
+      this.$router.push({
+        path: '/product/checkin',
+        query: {
+          proId: row.productInfo.id
         }
       })
     },

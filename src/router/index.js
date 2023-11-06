@@ -73,6 +73,12 @@ export const constantRoutes = [
         meta: { title: '项目成员', noCache: true, icon: 'people' }
       },
       {
+        path: 'checkin',
+        name: 'Product',
+        component: () => import('@/views/product/checkin'),
+        meta: { title: '成员管理', noCache: false, icon: 'people' }
+      },
+      {
         path: 'import',
         component: () => import('@/views/product/import'),
         name: 'import',

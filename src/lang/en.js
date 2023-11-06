@@ -104,6 +104,7 @@ export default {
     title: '标题',
     product: '项目',
     productMember: '项目成员',
+    depart: '部门',
     workNumber: '工号',
     phone: '手机号码',
     userName: '姓名',
