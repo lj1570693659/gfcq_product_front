@@ -79,6 +79,41 @@ export const constantRoutes = [
         meta: { title: '成员管理', noCache: false, icon: 'people' }
       },
       {
+        path: 'task',
+        name: 'Product',
+        hidden: true,
+        component: () => import('@/views/product/task'),
+        meta: { title: '任务管理', noCache: false, icon: 'people' }
+      },
+      {
+        path: 'npi',
+        name: 'Product',
+        hidden: true,
+        component: () => import('@/views/product/npi'),
+        meta: { title: '工艺任务', noCache: false, icon: 'people' }
+      },
+      {
+        path: 'quality',
+        name: 'Product',
+        hidden: true,
+        component: () => import('@/views/product/quality'),
+        meta: { title: '质量任务', noCache: false, icon: 'people' }
+      },
+      {
+        path: 'produce',
+        name: 'Product',
+        hidden: true,
+        component: () => import('@/views/product/produce'),
+        meta: { title: '生产任务', noCache: false, icon: 'people' }
+      },
+      {
+        path: 'develop',
+        name: 'Product',
+        hidden: true,
+        component: () => import('@/views/product/develop'),
+        meta: { title: '研发任务', noCache: false, icon: 'people' }
+      },
+      {
         path: 'import',
         component: () => import('@/views/product/import'),
         name: 'import',

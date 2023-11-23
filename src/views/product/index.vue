@@ -4,7 +4,7 @@
       <el-input v-model="listQuery.name" :placeholder="$t('table.productName')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-input v-model="listQuery.subName" :placeholder="$t('table.productSubName')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-input v-model="listQuery.proNumber" :placeholder="$t('table.productNumber')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
@@ -84,6 +84,10 @@
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleAchieve(scope.row)">录入绩效</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowAchieve(scope.row)">绩效</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowCheckin(scope.row)">打卡</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowTask(scope.row)">项目版块三级任务</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowNpi(scope.row)">工艺版块三级任务</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowQualify(scope.row)">质量版块三级任务</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowDevelop(scope.row)">研发版块三级任务</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleDelete(scope.row)">删除</el-button>
           </span>
         </template>
@@ -409,6 +413,51 @@ export default {
         path: '/product/checkin',
         query: {
           proId: row.productInfo.id
+        }
+      })
+    },
+    handleShowTask(row) {
+      this.$router.push({
+        path: '/product/task',
+        query: {
+          proId: row.productInfo.id,
+          name: row.productInfo.subName
+        }
+      })
+    },
+    handleShowNpi(row) {
+      this.$router.push({
+        path: '/product/npi',
+        query: {
+          proId: row.productInfo.id,
+          name: row.productInfo.subName
+        }
+      })
+    },
+    handleShowQualify(row) {
+      this.$router.push({
+        path: '/product/quality',
+        query: {
+          proId: row.productInfo.id,
+          name: row.productInfo.subName
+        }
+      })
+    },
+    handleShowDevelop(row) {
+      this.$router.push({
+        path: '/product/develop',
+        query: {
+          proId: row.productInfo.id,
+          name: row.productInfo.subName
+        }
+      })
+    },
+    handleShowProduce(row) {
+      this.$router.push({
+        path: '/product/produce',
+        query: {
+          proId: row.productInfo.id,
+          name: row.productInfo.subName
         }
       })
     },
