@@ -48,7 +48,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目经理" prop="pmId">
-        <el-select v-model="form.pmId" :remote-method="getInstructor" filterable default-first-option remote placeholder="请选择项目经理">
+        <el-select v-model="form.pmId" :remote-method="getInstructor" clearable filterable placeholder="请选择项目经理" class="filter-item">
           <el-option v-for="(item,index) in instructorOptions" :key="item+index" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>

@@ -80,7 +80,7 @@
           <span>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleDetail(scope.row)">详情</el-button>
-            <el-button type="text" size="small" icon="el-icon-edit" @click="handleImport(scope.row)">导入成员</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="handleChooseCreateType(scope.row)">导入成员</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleAchieve(scope.row)">录入绩效</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowAchieve(scope.row)">绩效</el-button>
             <el-button type="text" size="small" icon="el-icon-edit" @click="handleShowCheckin(scope.row)">打卡</el-button>
@@ -160,6 +160,27 @@
       </div>
     </el-dialog>
 
+    <el-dialog
+      title="录入成员信息"
+      :visible.sync="dialogFormVisible"
+      width="50%"
+    >
+      <div
+        ref="dataForm"
+        :rules="rules"
+        :model="tempDate"
+        label-position="left"
+        label-width="120px"
+        style="margin-left: 50px"
+      >
+        <el-button size="small" @click="handleImport()">Excel导入</el-button>
+        <el-button size="small" style="margin-left: 200px" @click="handleChooseMember()">网页录入</el-button>
+      </div>
+      <!-- <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" size="small" @click="dialogStatus === 'create' ? createData() : updateData()"> 确认 </el-button>
+      </div> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -283,6 +304,7 @@ export default {
       dialogStatus: '',
       dialogFormVisible: false,
       temp: {},
+      tempDate: {},
       rules: {
         stageId: [{ validator: validateStageIdRequire }],
         stageScore: [{ validator: validateStageScoreRequire }],
@@ -319,11 +341,19 @@ export default {
         this.fetchData()
       })
     },
-    handleImport(row) {
+    handleImport() {
       this.$router.push({
         path: '/product/import',
         query: {
-          id: row.productInfo.id
+          id: this.tempDate.productInfo.id
+        }
+      })
+    },
+    handleChooseMember() {
+      this.$router.push({
+        path: '/product/member/create',
+        query: {
+          id: this.tempDate.productInfo.id
         }
       })
     },
@@ -334,6 +364,11 @@ export default {
           id: row.productInfo.id
         }
       })
+    },
+    // 打开添加
+    handleChooseCreateType(row) {
+      this.tempDate = Object.assign({}, row) // copy obj
+      this.dialogFormVisible = true
     },
     handleCreate(row) {
       this.$router.push({

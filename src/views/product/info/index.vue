@@ -16,7 +16,6 @@
               <el-col :span="10">
                 <el-form-item label-width="120px" label="项目经理:" prop="fixBudget" class="postInfo-container-item">
                   <el-input v-model="form.productPm.userName" :readonly="true" />
-                  <!-- <el-input v-model="form.productPm.workNumber" :readonly="true" /> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -67,7 +66,6 @@
               <el-col :span="10">
                 <el-form-item label-width="120px" label="首年净利润:" prop="fixBudget" class="postInfo-container-item">
                   {{ form.productInfo.netProfit / 10000 }}（万元）
-                  <!-- <el-input v-model="form.productInfo.netProfit" :readonly="true" /> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -88,7 +86,6 @@
             </el-row>
           </el-form-item>
         </el-form>
-        <!-- </div> -->
       </el-tab-pane>
       <el-tab-pane label="项目组成员">
         <el-table v-loading="listLoading" :data="memberList" border highlight-current-row style="width: 100%;margin-top:20px;">
@@ -119,9 +116,25 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="分类">
-            <template slot-scope="scope">
-              {{ scope.row.productMemberInfo.type }}
+          <el-table-column label="分类">
+            <template slot-scope="{row}">
+              <template v-if="row.edit">
+                <el-select v-model="row.productMemberInfo.type" placeholder="请选择分类" clearable style="width: 300px" class="filter-item">
+                  <el-option label="一环" :value="'一环'" />
+                  <el-option label="二环" :value="'二环'" />
+                </el-select>
+                <el-button
+                  class="cancel-btn"
+                  size="small"
+                  icon="el-icon-refresh"
+                  type="warning"
+                  @click="cancelEdit(row)"
+                >
+                  cancel
+                </el-button>
+              </template>
+              <span v-else-if="row.productMemberInfo.type == '一环'">一环</span>
+              <span v-else-if="row.productMemberInfo.type == '二环'">二环</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="投入占比">
@@ -139,9 +152,13 @@
               {{ scope.row.jobLevelInfo.Name }}
             </template>
           </el-table-column>
-          <el-table-column align="center" label="责任和职务">
-            <template slot-scope="scope">
-              {{ scope.row.productMemberInfo.specificDuty }}
+
+          <el-table-column label="责任和职务">
+            <template slot-scope="{row}">
+              <template v-if="row.edit">
+                <el-input v-model="row.productMemberInfo.specificDuty" class="edit-input" size="small" />
+              </template>
+              <span v-else>{{ row.productMemberInfo.specificDuty }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="工作地">
@@ -161,9 +178,36 @@
               <span v-if="scope.row.productMemberInfo.isSupport == 0">否</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="备注">
-            <template slot-scope="scope">
-              {{ scope.row.productMemberInfo.remark }}
+
+          <el-table-column label="备注">
+            <template slot-scope="{row}">
+              <template v-if="row.edit">
+                <el-input v-model="row.productMemberInfo.remark" class="edit-input" size="small" />
+              </template>
+              <span v-else>{{ row.productMemberInfo.remark }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column align="center" prop="created_at" label="操作" width="200">
+            <template slot-scope="{row}">
+              <el-button
+                v-if="row.edit"
+                type="success"
+                size="small"
+                icon="el-icon-circle-check-outline"
+                @click="confirmEdit(row)"
+              >
+                Ok
+              </el-button>
+              <el-button
+                v-else
+                type="primary"
+                size="small"
+                icon="el-icon-edit"
+                @click="row.edit=!row.edit"
+              >
+                Edit
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -175,7 +219,7 @@
 
 <script>
 
-import { getDetail, getMemberLists } from '@/api/product/index'
+import { getDetail, getMemberLists, modifyMemberData } from '@/api/product/index'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const defaultForm = {
@@ -242,6 +286,14 @@ export default {
         this.total = response.totalSize
         this.size = response.size
         this.listLoading = false
+
+        if (this.total > 0) {
+          for (var index2 in this.memberList) {
+            this.memberList[index2].productMemberInfo.originalRemark = this.memberList[index2].productMemberInfo.remark
+            this.memberList[index2].productMemberInfo.originalType = this.memberList[index2].productMemberInfo.type
+            this.memberList[index2].productMemberInfo.originalSpecificDuty = this.memberList[index2].productMemberInfo.specificDuty
+          }
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -270,6 +322,36 @@ export default {
         this.loading = false
         this.$router.push({
           path: '/product/index'
+        })
+      })
+    },
+    cancelEdit(row) {
+      row.productMemberInfo.type = row.productMemberInfo.originalType
+      row.productMemberInfo.remark = row.productMemberInfo.originalRemark
+      row.productMemberInfo.specificDuty = row.productMemberInfo.originalSpecificDuty
+      row.edit = false
+      this.$message({
+        message: '任务信息未做变更',
+        type: 'warning'
+      })
+    },
+    confirmEdit(row) {
+      row.edit = false
+      console.log('0--------------------', row)
+      var data = {
+        id: row.productMemberInfo.id,
+        proId: row.productMemberInfo.proId,
+        workNumber: row.productMemberInfo.workNumber,
+        attributeName: '兼职',
+        prName: row.productMemberInfo.prName,
+        remark: row.productMemberInfo.remark,
+        specificDuty: row.productMemberInfo.specificDuty,
+        type: row.productMemberInfo.type
+      }
+      modifyMemberData(data).then(response => {
+        this.$message({
+          message: '成员信息变更',
+          type: 'success'
         })
       })
     }

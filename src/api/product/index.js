@@ -64,6 +64,14 @@ export function importMember(data) {
   })
 }
 
+export function webImportMember(data) {
+  return request({
+    url: '/product/member/web',
+    method: 'post',
+    data
+  })
+}
+
 export function getMemberLists(params) {
   return request({
     url: '/product/member/lists',

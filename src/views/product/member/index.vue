@@ -191,7 +191,6 @@
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { getMemberLists, deleteProductMember, getAll, modifyMemberData } from '@/api/product/index'
 import { getEmployeeAll } from '@/api/system//organize/employee'
-// import { validAuth } from '@/utils/validate'
 
 export default {
   components: { Pagination },
