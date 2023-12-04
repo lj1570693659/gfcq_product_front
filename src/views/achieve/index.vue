@@ -364,7 +364,7 @@ export default {
       exportMemberList({ proId: row.productStageKpi.proId }).then(response => {
         // console.log('response----------------', response)
         // var path = 'http://10.24.12.84:8199' + response
-        var path = 'http://10.80.28.218:8199' + response
+        var path = 'http://10.80.8.17:8199' + response
         window.open(path, '_blank')
         this.fetchData()
       })

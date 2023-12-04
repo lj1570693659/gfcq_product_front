@@ -95,3 +95,11 @@ export function deleteProductMember(data) {
     data
   })
 }
+
+export function exportMemberList(params) {
+  return request({
+    url: '/product/member/export',
+    method: 'get',
+    params
+  })
+}

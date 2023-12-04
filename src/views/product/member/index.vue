@@ -10,9 +10,9 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
       </el-button>
-      <!-- <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        {{ $t('table.add') }}
-      </el-button> -->
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleExport">
+        {{ $t('table.export') }}
+      </el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -189,8 +189,8 @@
 
 <script>
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import { getMemberLists, deleteProductMember, getAll, modifyMemberData } from '@/api/product/index'
-import { getEmployeeAll } from '@/api/system//organize/employee'
+import { getMemberLists, deleteProductMember, getAll, modifyMemberData, exportMemberList } from '@/api/product/index'
+import { getEmployeeAll } from '@/api/system/organize/employee'
 
 export default {
   components: { Pagination },
@@ -360,6 +360,16 @@ export default {
         query: {
           proId: row.id
         }
+      })
+    },
+    handleExport() {
+      console.log('this.listQuery---------------', this.listQuery)
+      exportMemberList({ proId: this.listQuery.proId }).then(response => {
+        // console.log('response----------------', response)
+        // var path = 'http://127.0.0.1:8199' + response
+        var path = 'http://10.80.8.17:8199' + response
+        window.open(path, '_blank')
+        this.fetchData()
       })
     }
   }
