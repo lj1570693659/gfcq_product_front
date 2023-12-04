@@ -162,8 +162,9 @@
 
     <el-dialog
       title="录入成员信息"
-      :visible.sync="dialogFormVisible"
+      :visible.sync="dialogVisible"
       width="50%"
+      height="50"
     >
       <div
         ref="dataForm"
@@ -176,10 +177,7 @@
         <el-button size="small" @click="handleImport()">Excel导入</el-button>
         <el-button size="small" style="margin-left: 200px" @click="handleChooseMember()">网页录入</el-button>
       </div>
-      <!-- <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" size="small" @click="dialogStatus === 'create' ? createData() : updateData()"> 确认 </el-button>
-      </div> -->
+      <div slot="footer" class="dialog-footer" />
     </el-dialog>
   </div>
 </template>
@@ -303,6 +301,7 @@ export default {
       },
       dialogStatus: '',
       dialogFormVisible: false,
+      dialogVisible: false,
       temp: {},
       tempDate: {},
       rules: {
@@ -368,7 +367,7 @@ export default {
     // 打开添加
     handleChooseCreateType(row) {
       this.tempDate = Object.assign({}, row) // copy obj
-      this.dialogFormVisible = true
+      this.dialogVisible = true
     },
     handleCreate(row) {
       this.$router.push({
